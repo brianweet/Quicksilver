@@ -1,0 +1,2 @@
+docker build -t qs-site:latest . -f site.Dockerfile
+docker build -t qs-manager:latest . -f manager.Dockerfile
