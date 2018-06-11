@@ -1,6 +1,4 @@
 :: Setup EPiServer CMS and Commerce databases
-@echo off
-
 set cms_db=Quicksilver.Cms
 set commerce_db=Quicksilver.Commerce
 set user=Quicksilver
@@ -52,4 +50,4 @@ echo Installing Commerce database...
 echo Installing ASP.NET Identity...
 %sql% -d %commerce_db% -b -i ".\aspnet_identity.sql" > SetupIdentity.log
 
-Pause
+exit /b

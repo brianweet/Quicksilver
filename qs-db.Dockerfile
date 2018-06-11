@@ -17,8 +17,8 @@ COPY Sources/EPiServer.Reference.Commerce.Site.Tests/*.config ./Sources/EPiServe
 RUN nuget restore
 
 FROM microsoft/mssql-server-windows-developer:1709
-WORKDIR /import
-COPY Setup/. ./Setup/.
-COPY --from=build /app/Packages/. ./Packages/.
-#RUN ./Setup/SetupDatabases.cmd
+COPY ./Setup /app/Setup
+COPY --from=build /app/Packages /app/Packages
+WORKDIR /app/Setup
+RUN ./SetupDatabases.cmd
 WORKDIR /

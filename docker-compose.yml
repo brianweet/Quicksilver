@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  qs-site:
+    build:
+      context: .
+      dockerfile: qs-site.Dockerfile
+    networks:
+      - qs-network
+    depends_on:
+      - qs-db
+  qs-manager:
+    build:
+      context: .
+      dockerfile: qs-manager.Dockerfile
+    networks:
+      - qs-network
+    depends_on:
+      - qs-db
+  qs-db:
+    build:
+      context: .
+      dockerfile: qs-db.Dockerfile
+    environment: 
+      - ACCEPT_EULA=Y
+      - sa_password=All0yDemokit!
+    networks:
+      - qs-network
+networks:
+  qs-network:
+    external:
+      name: nat
