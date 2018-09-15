@@ -1,13 +1,24 @@
-FROM microsoft/mssql-server-linux:latest
-ENV ACCEPT_EULA Y
-ENV SA_PASSWORD All0yDemokit!
-# Create app directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+# Stage-1: Create image to build our application with
+FROM microsoft/dotnet-framework:4.7.2-sdk AS build
+WORKDIR /app
 
-COPY . /usr/src/app/
+# copy csproj and restore as distinct layers
+COPY *.sln .
+COPY Sources/*.config .
+COPY Sources/*.config /Sources/.
+COPY Sources/EPiServer.Reference.Commerce.Manager/*.csproj ./Sources/EPiServer.Reference.Commerce.Manager/
+COPY Sources/EPiServer.Reference.Commerce.Manager/*.config ./Sources/EPiServer.Reference.Commerce.Manager/
+COPY Sources/EPiServer.Reference.Commerce.Shared/*.csproj ./Sources/EPiServer.Reference.Commerce.Shared/
+COPY Sources/EPiServer.Reference.Commerce.Shared/*.config ./Sources/EPiServer.Reference.Commerce.Shared/
+COPY Sources/EPiServer.Reference.Commerce.Site/*.csproj ./Sources/EPiServer.Reference.Commerce.Site/
+COPY Sources/EPiServer.Reference.Commerce.Site/*.config ./Sources/EPiServer.Reference.Commerce.Site/
+COPY Sources/EPiServer.Reference.Commerce.Site.Tests/*.csproj ./Sources/EPiServer.Reference.Commerce.Site.Tests/
+COPY Sources/EPiServer.Reference.Commerce.Site.Tests/*.config ./Sources/EPiServer.Reference.Commerce.Site.Tests/
+RUN nuget restore
 
-# Grant permissions for the import-data script to be executable
-RUN chmod +x /usr/src/app/import-data.sh
-
-CMD /bin/bash ./entrypoint.sh
+FROM microsoft/mssql-server-windows-developer:1709
+COPY ./Setup /app/Setup
+COPY --from=build /app/Packages /app/Packages
+WORKDIR /app/Setup
+RUN ./SetupDatabases.cmd
+WORKDIR /

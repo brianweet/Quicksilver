@@ -7,3 +7,5 @@ Changelog.md
 Makefile
 docker-compose.yml
 docs
+cmds
+*.Dockerfile

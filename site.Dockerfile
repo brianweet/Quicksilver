@@ -16,9 +16,29 @@ COPY Sources/EPiServer.Reference.Commerce.Site.Tests/*.csproj ./Sources/EPiServe
 COPY Sources/EPiServer.Reference.Commerce.Site.Tests/*.config ./Sources/EPiServer.Reference.Commerce.Site.Tests/
 RUN nuget restore
 
-FROM microsoft/mssql-server-windows-developer:1709
-COPY ./Setup /app/Setup
-COPY --from=build /app/Packages /app/Packages
-WORKDIR /app/Setup
-RUN ./SetupDatabases.cmd
+# copy everything else and build app
+COPY Sources/. ./Sources/
+WORKDIR /app
+RUN msbuild /p:Configuration=Release
+
+# Stage-2: Create image to run our application with
+FROM iis-mssql:new
+RUN Add-WindowsFeature Web-WebSockets
+
+# Add dbs
+WORKDIR /
+COPY ./Quicksilver.Cms.mdf .
+COPY ./Quicksilver.Cms_log.ldf .
+COPY ./Quicksilver.Commerce.mdf .
+COPY ./Quicksilver.Commerce_log.ldf .
+ENV attach_dbs='[{"dbName":"Quicksilver.Cms","dbFiles":["C:\\Quicksilver.Cms.mdf","C:\\Quicksilver.Cms_log.ldf"]},{"dbName":"Quicksilver.Commerce","dbFiles":["C:\\Quicksilver.Commerce.mdf","C:\\Quicksilver.Commerce_log.ldf"]}]'
+ENV sa_password=P@ssw0rd1!
+ENV ACCEPT_EULA=Y
+
+WORKDIR /inetpub/wwwroot
+COPY --from=build /app/Sources/EPiServer.Reference.Commerce.Site/. .
+WORKDIR /inetpub
+RUN mkdir appdata
+RUN icacls ./appdata /grant everyone:F /T
+RUN icacls ./wwwroot /grant everyone:F /T
 WORKDIR /

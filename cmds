@@ -1,0 +1,8 @@
+docker build -t iis-mssql:new -f iis-mssql.Dockerfile .
+docker build -t site-test:new -f site.Dockerfile .
+docker run -d --name site-test1 site-test:new 
+docker inspect site-test1
+
+docker exec -ti site-test1 powershell
+
+.\start.ps1 -Verbose -sa_password P@ssw0rd1! -ACCEPT_EULA Y -attach_dbs "[{'dbName':'Quicksilver.Cms','dbFiles':['C:\\Quicksilver.Cms.mdf','C:\\Quicksilver.Cms_log.ldf']},{'dbName':'Quicksilver.Commerce','dbFiles':['C:\\Quicksilver.Commerce.mdf','C:\\Quicksilver.Commerce_log.ldf']}]"

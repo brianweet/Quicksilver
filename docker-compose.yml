@@ -1,26 +1,29 @@
 version: '3'
 
 services:
-  qs-site:
+  site:
+    image: quicksilver-site:latest
     build:
       context: .
-      dockerfile: qs-site.Dockerfile
+      dockerfile: site.Dockerfile
     networks:
       - qs-network
     depends_on:
-      - qs-db
-  qs-manager:
+      - db
+  manager:
+    image: quicksilver-manager:latest
     build:
       context: .
-      dockerfile: qs-manager.Dockerfile
+      dockerfile: manager.Dockerfile
     networks:
       - qs-network
     depends_on:
-      - qs-db
-  qs-db:
+      - db
+  db:
+    image: quicksilver-db:latest
     build:
       context: .
-      dockerfile: qs-db.Dockerfile
+      dockerfile: db.Dockerfile
     environment: 
       - ACCEPT_EULA=Y
       - sa_password=All0yDemokit!
