@@ -1,17 +1,19 @@
 # escape=`
 
-##  dotnet-framework-docker/4.7.2-windowsservercore-1803/runtime/Dockerfile
-FROM microsoft/windowsservercore:1803
-ENV COMPLUS_NGenProtectedProcess_FeatureEnabled 0
+FROM microsoft/dotnet-framework:4.7.2-runtime-20180911-windowsservercore-ltsc2016
 
-##  aspnet-docker/4.7.2-windowsservercore-1803/runtime/Dockerfile
-# FROM microsoft/dotnet-framework:4.7.2-runtime-windowsservercore-1803
+LABEL maintainer="Brian Weeteling"
+LABEL description="Image that combines iis and mssql. Based on microsoft images."
+
+## aspnet-docker/4.7.2-windowsservercore-ltsc2016/runtime/Dockerfile 
+# FROM microsoft/dotnet-framework:4.7.2-runtime-windowsservercore-ltsc2016
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 RUN Add-WindowsFeature Web-Server; `
     Add-WindowsFeature NET-Framework-45-ASPNET; `
     Add-WindowsFeature Web-Asp-Net45; `
+    Add-WindowsFeature Web-WebSockets; `
     Remove-Item -Recurse C:\inetpub\wwwroot\*; `
     Invoke-WebRequest -Uri https://dotnetbinaries.blob.core.windows.net/servicemonitor/2.0.1.3/ServiceMonitor.exe -OutFile C:\ServiceMonitor.exe
 
@@ -19,6 +21,8 @@ RUN Add-WindowsFeature Web-Server; `
 RUN Invoke-WebRequest https://api.nuget.org/packages/microsoft.net.compilers.2.8.2.nupkg -OutFile c:\microsoft.net.compilers.2.8.2.zip ; `	
     Expand-Archive -Path c:\microsoft.net.compilers.2.8.2.zip -DestinationPath c:\RoslynCompilers ; `
     Remove-Item c:\microsoft.net.compilers.2.8.2.zip -Force ; `
+    &C:\Windows\Microsoft.NET\Framework64\v4.0.30319\ngen.exe update ; `
+    &C:\Windows\Microsoft.NET\Framework\v4.0.30319\ngen.exe update ; `
     &C:\Windows\Microsoft.NET\Framework64\v4.0.30319\ngen.exe install c:\RoslynCompilers\tools\csc.exe /ExeConfig:c:\RoslynCompilers\tools\csc.exe | `
     &C:\Windows\Microsoft.NET\Framework64\v4.0.30319\ngen.exe install c:\RoslynCompilers\tools\vbc.exe /ExeConfig:c:\RoslynCompilers\tools\vbc.exe  | `
     &C:\Windows\Microsoft.NET\Framework64\v4.0.30319\ngen.exe install c:\RoslynCompilers\tools\VBCSCompiler.exe /ExeConfig:c:\RoslynCompilers\tools\VBCSCompiler.exe | `
@@ -57,6 +61,7 @@ RUN Invoke-WebRequest -Uri $env:box -OutFile SQL.box ; `
         .\setup\setup.exe /q /ACTION=Install /INSTANCENAME=MSSQLSERVER /FEATURES=SQLEngine /UPDATEENABLED=0 /SQLSVCACCOUNT='NT AUTHORITY\System' /SQLSYSADMINACCOUNTS='BUILTIN\ADMINISTRATORS' /TCPENABLED=1 /NPENABLED=0 /IACCEPTSQLSERVERLICENSETERMS ; `
         Remove-Item -Recurse -Force SQL.exe, SQL.box, setup
 
+# asdf
 RUN stop-service MSSQLSERVER ; `
         set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql14.MSSQLSERVER\mssqlserver\supersocketnetlib\tcp\ipall' -name tcpdynamicports -value '' ; `
         set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql14.MSSQLSERVER\mssqlserver\supersocketnetlib\tcp\ipall' -name tcpport -value 1433 ; `

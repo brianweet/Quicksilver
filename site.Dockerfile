@@ -22,8 +22,7 @@ WORKDIR /app
 RUN msbuild /p:Configuration=Release
 
 # Stage-2: Create image to run our application with
-FROM iis-mssql:new
-RUN Add-WindowsFeature Web-WebSockets
+FROM iis-mssql:ltsc2016
 
 # Add dbs
 WORKDIR /
