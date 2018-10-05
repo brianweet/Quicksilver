@@ -26,11 +26,11 @@ FROM brianweet/iis-mssql:ltsc2016
 
 # Add dbs
 WORKDIR /
-COPY ./Quicksilver.Cms.mdf .
-COPY ./Quicksilver.Cms_log.ldf .
-COPY ./Quicksilver.Commerce.mdf .
-COPY ./Quicksilver.Commerce_log.ldf .
-ENV attach_dbs='[{"dbName":"Quicksilver.Cms","dbFiles":["C:\\Quicksilver.Cms.mdf","C:\\Quicksilver.Cms_log.ldf"]},{"dbName":"Quicksilver.Commerce","dbFiles":["C:\\Quicksilver.Commerce.mdf","C:\\Quicksilver.Commerce_log.ldf"]}]'
+COPY Setup/Quicksilver.Cms.mdf ./Databases/
+COPY Setup/Quicksilver.Cms_log.ldf ./Databases/
+COPY Setup/Quicksilver.Commerce.mdf ./Databases/
+COPY Setup/Quicksilver.Commerce_log.ldf ./Databases/
+ENV attach_dbs='[{"dbName":"Quicksilver.Cms","dbFiles":["C:\\Databases\\Quicksilver.Cms.mdf","C:\\Databases\\Quicksilver.Cms_log.ldf"]},{"dbName":"Quicksilver.Commerce","dbFiles":["C:\\Databases\\Quicksilver.Commerce.mdf","C:\\Databases\\Quicksilver.Commerce_log.ldf"]}]'
 ENV sa_password=P@ssw0rd1!
 ENV ACCEPT_EULA=Y
 
