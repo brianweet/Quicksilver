@@ -10,5 +10,9 @@ variables:
   imageName: 'quicksilver-azure-pipelines:$(build.buildId)'
 
 steps:
-- script: docker build -f Dockerfile -t $(imageName) .
-  displayName: 'docker build'
+- script: |
+    docker build -f Dockerfile -t $(dockerId)/$(imageName) .
+    docker login -u $(dockerId) -p $(dockerPassword)
+    docker push $(dockerId)/$(imageName)
+  displayName: 'docker build and publish'
+  
