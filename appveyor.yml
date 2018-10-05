@@ -1,0 +1,17 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+
+environment:
+  DOCKER_USER:
+    secure: 17f+UNj8gpgmUNhQXjtC9A==
+  DOCKER_PASS:
+    secure: NhmdwqDFcWVXl450JbBy64r8jPzsE6D9jWGbuoqPcAU=
+
+install:
+  - docker version
+
+build_script:
+  - docker build -t brianweet/quicksilver-appveyor .
+
+deploy_script:
+  - ps: .\deploy.sh1
