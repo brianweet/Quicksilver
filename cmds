@@ -1,0 +1,5 @@
+docker build --memory="3GB" -t iis-mssql:ltsc2016 -f iis-mssql.Dockerfile .
+docker build --memory="3GB" -t site-test:new -f site.Dockerfile .
+docker run -d --memory="3GB" --name site-test1 site-test:new 
+docker inspect site-test1
+docker exec -ti site-test1 powershell
