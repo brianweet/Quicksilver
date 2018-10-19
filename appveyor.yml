@@ -11,7 +11,7 @@ install:
   - docker version
 
 build_script:
-  - docker build -t brianweet/quicksilver-appveyor .
+  - ps: ./build.ps1
 
 deploy_script:
-  - ps: .\deploy.sh1
+  - ps: ./deploy.ps1
