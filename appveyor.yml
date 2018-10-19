@@ -10,6 +10,12 @@ environment:
     secure: FZ9FLHTq1jbdjthSYPvfHw==
   ACR_PASS:
     secure: 5saOWPYJxm0bw0EA6UT0MEOo2OoIZuaVHIIolOww1RgUxiyfs6me5EjDMUl98fup
+  AZURE_SP_USER:
+    secure: BVtJD1W4T0pBhNT3EoPfZ3GCeeUXCJJEkO1Tueld0PzjQ8GWfamzYz/AHc8sqVnp
+  AZURE_SP_PASS:
+    secure: Dz1qFn8RfCmbu4d0mQumzIsNzD//topN5ISBOWT1WDI=
+  AZURE_SP_TENANT:
+    secure: Rr2XY/kKs9kKITnkWO8hK11vCvLAVHckyfP+eYhYLkAXfr1U5rl9CKemSFCUuIZY
 
 install:
   - docker version
