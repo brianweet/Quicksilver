@@ -25,3 +25,6 @@ build_script:
 
 deploy_script:
   - ps: ./deploy.ps1
+
+test_script:
+  - ps: ./test.ps1
