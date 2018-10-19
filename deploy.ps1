@@ -1,8 +1,8 @@
 $ErrorActionPreference = 'Stop';
 
 Write-Host Pushing image to ACR
-"$env:ACR_PASS" | docker login --username "$env:ACR_USER" --password-stdin quicksilver.azurecr.io
-docker push quicksilver.azurecr.io/quicksilver-appveyor
+# "$env:ACR_PASS" | docker login --username "$env:ACR_USER" --password-stdin quicksilver.azurecr.io
+# docker push quicksilver.azurecr.io/quicksilver-appveyor
 Write-Host Deploy to ACI
 az acr login --name quicksilver --username "$env:ACR_USER" --password "$env:ACR_PASS"
 az container create `
