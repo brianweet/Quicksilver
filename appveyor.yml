@@ -6,6 +6,10 @@ environment:
     secure: 17f+UNj8gpgmUNhQXjtC9A==
   DOCKER_PASS:
     secure: NhmdwqDFcWVXl450JbBy64r8jPzsE6D9jWGbuoqPcAU=
+  ACR_USER:
+    secure: FZ9FLHTq1jbdjthSYPvfHw==
+  ACR_PASS:
+    secure: 5saOWPYJxm0bw0EA6UT0MEOo2OoIZuaVHIIolOww1RgUxiyfs6me5EjDMUl98fup
 
 install:
   - docker version
