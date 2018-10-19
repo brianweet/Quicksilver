@@ -3,3 +3,6 @@ docker build --memory="3GB" -t site-test:new -f site.Dockerfile .
 docker run -d --memory="3GB" --name site-test1 site-test:new 
 docker inspect site-test1
 docker exec -ti site-test1 powershell
+
+az container create --resource-group test-aci --name mycontainer --image microsoft/aci-helloworld --dns-name-label aci-demo2 --ports 80 --os-type Linux --cpu 2 --memory 2.5
+az container create --resource-group test-aci --name mycontainer --image brianweet/quicksilver-azure-pipelines --dns-name-label aci-demo2 --ports 80 --os-type Windows --cpu 2 --memory 2.5
