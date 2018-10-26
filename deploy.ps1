@@ -4,13 +4,13 @@ Write-Host Deploy to ACI
 az login --service-principal -u "$env:AZURE_SP_USER" -p "$env:AZURE_SP_PASS" --tenant "$env:AZURE_SP_TENANT"
 az container create `
             --resource-group test-aci `
-            --name quicksilver-appveyor `
-            --image quicksilver.azurecr.io/quicksilver-appveyor `
-            --dns-name-label quicksilver-appveyor-dns `
+            --name quicksilver-appveyor-do-not-break-test `
+            --image quicksilver.azurecr.io/quicksilver-appveyor:do-not-break-test `
+            --dns-name-label quicksilver-appveyor-do-not-break-test-dns `
             --ports 80 443 `
             --os-type Windows `
-            --cpu 2 `
-            --memory 2.5 `
+            --cpu 1 `
+            --memory 2 `
             --registry-login-server quicksilver.azurecr.io `
             --registry-username "$env:ACR_USER" `
             --registry-password "$env:ACR_PASS"

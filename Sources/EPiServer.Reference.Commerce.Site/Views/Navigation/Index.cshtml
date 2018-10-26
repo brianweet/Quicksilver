@@ -20,7 +20,7 @@
                     </button>
                 </div>
                 <div class="col-xs-4">
-                    <h1 class="site-logo"><a href="/">Quicksilver</a></h1>
+                    <h1 class="site-logo do-not-break-site-logo"><a href="/">Quicksilver</a></h1>
                 </div>
                 <div class="col-xs-4">
                     @if (Request.RequestContext.HttpContext.User.Identity.IsAuthenticated)
@@ -42,7 +42,7 @@
 
         <div class="container">
             <div class="row sm-row-1">
-                <div class="col-sm-6 hidden-xs"><h1 class="site-logo"><a href="@UrlResolver.Current.GetUrl(Model.StartPage.ContentLink)">Quicksilver</a></h1></div>
+                <div class="col-sm-6 hidden-xs"><h1 class="site-logo do-do-not-break-site-logo"><a href="@UrlResolver.Current.GetUrl(Model.StartPage.ContentLink)">Quicksilver</a></h1></div>
                 <div class="col-sm-6 hidden-xs text-right">
                     @using (Html.BeginForm("Index", null, new { node = Model.StartPage.SearchPage }, FormMethod.Get, htmlAttributes: new { role = "search", @class = "clearfix search-form" }))
                     {
