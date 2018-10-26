@@ -1,4 +1,4 @@
-﻿Quicksilver
+﻿Quicksilver -appveyor PR build
 ===========
 [![Build status](https://ci.appveyor.com/api/projects/status/amaqyvue14grc16t?svg=true)](https://ci.appveyor.com/project/brianweet/quicksilver)
 [![GitHub version](https://badge.fury.io/gh/episerver%2FQuicksilver.svg)](https://github.com/episerver/Quicksilver)
