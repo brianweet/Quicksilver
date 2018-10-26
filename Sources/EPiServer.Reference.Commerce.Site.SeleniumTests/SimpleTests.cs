@@ -1,6 +1,8 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Remote;
+using System;
 using Xunit;
 
 namespace EPiServer.Reference.Commerce.Site.SeleniumTests
@@ -8,7 +10,7 @@ namespace EPiServer.Reference.Commerce.Site.SeleniumTests
     public static class SimpleTests
     {
         [Theory]
-        [InlineData("Chrome")]
+        [InlineData("Firefox")]
         public static void CanReachStartpage(string browserName)
         {
             var url = "http://quicksilver-appveyor-dns.westeurope.azurecontainer.io";
@@ -20,7 +22,7 @@ namespace EPiServer.Reference.Commerce.Site.SeleniumTests
         }
 
         [Theory]
-        [InlineData("Chrome")]
+        [InlineData("Firefox")]
         public static void CanFindHeading(string browserName)
         {
             var url = "http://quicksilver-appveyor-dns.westeurope.azurecontainer.io";
@@ -35,7 +37,11 @@ namespace EPiServer.Reference.Commerce.Site.SeleniumTests
 
         private static IWebDriver CreateWebDriver(string browserName)
         {
-            return new RemoteWebDriver(new ChromeOptions());
+            var driverService = FirefoxDriverService.CreateDefaultService();
+            driverService.FirefoxBinaryPath = @"C:\Program Files (x86)\Mozilla Firefox\firefox.exe";
+            driverService.HideCommandPromptWindow = true;
+            driverService.SuppressInitialDiagnosticInformation = true;
+            return new FirefoxDriver(driverService, new FirefoxOptions(), TimeSpan.FromSeconds(60));
         }
     }
 }
