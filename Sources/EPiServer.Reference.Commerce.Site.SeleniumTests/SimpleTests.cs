@@ -13,7 +13,7 @@ namespace EPiServer.Reference.Commerce.Site.SeleniumTests
         [InlineData("Firefox")]
         public static void CanReachStartpage(string browserName)
         {
-            var url = "http://quicksilver-appveyor-dns.westeurope.azurecontainer.io";
+            var url = "http://quicksilver-appveyor-break-test-dns.westeurope.azurecontainer.io";
             using (var driver = CreateWebDriver(browserName))
             {
                 driver.Navigate().GoToUrl(url);
@@ -25,7 +25,7 @@ namespace EPiServer.Reference.Commerce.Site.SeleniumTests
         [InlineData("Firefox")]
         public static void CanFindHeading(string browserName)
         {
-            var url = "http://quicksilver-appveyor-dns.westeurope.azurecontainer.io";
+            var url = "http://quicksilver-appveyor-break-test-dns.westeurope.azurecontainer.io";
             using (var driver = CreateWebDriver(browserName))
             {
                 driver.Navigate().GoToUrl(url);
