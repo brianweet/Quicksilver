@@ -19,6 +19,7 @@ environment:
 
 install:
   - docker version
+  - nuget sources add -Name http://nuget.episerver.com/feed/packages.svc/ -Source http://nuget.episerver.com/feed/packages.svc/
 
 before_build:
   - nuget restore
