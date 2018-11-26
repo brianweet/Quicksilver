@@ -20,10 +20,13 @@ environment:
 install:
   - docker version
 
+before_build:
+  - nuget restore
+
 build:
   project: Quicksilver.sln
   parallel: true
-  verbosity: normal
+  verbosity: minimal
 
 after_build:
   - ps: ./build.ps1
